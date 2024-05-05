@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!-- Бин для чтения свойств из файла db.properties -->
+    <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="location" value="classpath:db.properties"/>
+    </bean>
+
+    <!-- Бин для класса DataBaseManager -->
+    <bean id="dataBaseManager" class="edu.school21.dbmanager.DataBaseManager">
+        <constructor-arg value="${db.url}"/>
+        <constructor-arg value="${db.user}"/>
+        <constructor-arg value="${db.password}"/>
+    </bean>
+
+    <!-- Бин для репозитория UsersRepositoryJdbc -->
+    <bean id="UsersRepositoryJdbc" class="edu.school21.repository.UsersRepositoryJdbcImpl"
+          depends-on="dataBaseManager"/>
+
+    <!-- Бин для репозитория UsersRepositoryJdbcTemplate -->
+    <bean id="UsersRepositoryJdbcTemplate" class="edu.school21.repository.UsersRepositoryJdbcTemplateImpl"
+          depends-on="dataBaseManager"/>
+
+</beans>
