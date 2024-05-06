@@ -1,6 +1,7 @@
 package school21.spring.service.services;
 
 
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -27,15 +28,24 @@ public class UsersServiceImplTest {
         usersServiceJdbcTemplate = context.getBean("usersServiceJdbcTemplate", UsersService.class);
     }
 
-
     @BeforeEach
     public void init() {
         try (Connection con = dataSource.getConnection();
              Statement st = con.createStatement()) {
-            st.executeUpdate("drop schema if exists models cascade;");
-            st.executeUpdate("create schema if not exists models;");
-            st.executeUpdate("create table if not exists models.user "
-                    + "(id integer, email varchar(50) not null, password varchar(50));");
+            st.executeUpdate("DROP TABLE IF EXISTS Users;");
+            st.executeUpdate("CREATE TABLE Users(ID INT,\n email VARCHAR(255), password VARCHAR(255));");
+            st.executeUpdate("INSERT INTO USERS VALUES(1, 'user3@school21.ru', '123');");
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+    }
+
+    @AfterAll
+    public static void clean() {
+        try (Connection con = dataSource.getConnection();
+             Statement st = con.createStatement()) {
+            st.executeUpdate("DROP TABLE IF EXISTS Users;");
+            st.executeUpdate("CREATE TABLE Users(ID INT,\n email VARCHAR(255), password VARCHAR(255));");
         } catch (SQLException e) {
             System.err.println(e.getMessage());
         }

@@ -1,6 +1,7 @@
 package school21.spring.service.repositories;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.stereotype.Component;
 import school21.spring.service.dbmanager.DataBaseManager;
@@ -83,8 +84,8 @@ public class UsersRepositoryJdbcTemplateImpl implements UsersRepository{
 
     @Override
     public Optional<User> findByEmail(String email) {
-        String request = "SELECT * FROM Users WHERE id = :id";
-        MapSqlParameterSource parameters = new MapSqlParameterSource().addValue("id", email);
+        String request = "SELECT * FROM Users WHERE email = :email";
+        MapSqlParameterSource parameters = new MapSqlParameterSource().addValue("email", email);
         try {
             User user = namedParameterJdbcTemplate.queryForObject(
                     request,

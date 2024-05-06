@@ -1,6 +1,5 @@
 package school21.spring.service.application;
 
-import com.sun.org.apache.xpath.internal.operations.String;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import school21.spring.service.repositories.UsersRepository;
